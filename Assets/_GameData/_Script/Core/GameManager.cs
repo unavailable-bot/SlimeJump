@@ -9,7 +9,7 @@ namespace Core
         private int floorsCompleted;
 
         private List<GameObject> _backgrounds = new();
-        private Transform _camera;
+        private Transform _player;
         
         private void Start()
         {
@@ -18,12 +18,13 @@ namespace Core
                 _backgrounds.Add(child.gameObject);
             }
             
-            _camera = GameObject.Find("Main Camera").transform;
+            //_camera = GameObject.Find("Main Camera").transform;
+            _player = GameObject.Find("Player").transform;
         }
 
         private void Update()
         {
-            int currentFloor = Mathf.FloorToInt(_camera.position.y / distanceBetweenBackgrounds);
+            int currentFloor = 1;//Mathf.FloorToInt(_camera.position.y / distanceBetweenBackgrounds);
             
             if (currentFloor > floorsCompleted)
             {
