@@ -1,5 +1,5 @@
-using UnityEngine;
 using Player;
+using UnityEngine;
 
 namespace Platform
 {
