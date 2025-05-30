@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Camera
+namespace CamScript
 {
     public class CamFollower : MonoBehaviour
     {
