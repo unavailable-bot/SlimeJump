@@ -1,9 +1,8 @@
-using Platform;
 using UnityEngine;
 
 namespace Player
 {
-    public class Movement : MonoBehaviour
+    internal class Movement : MonoBehaviour
     {
         private const float moveSpeed = 10f;
         private const float jumpForce = 10f;
@@ -58,28 +57,24 @@ namespace Player
             
             if (isJumping || !(_rb.linearVelocityY <= 0f)) return;
             
-            _rb.AddForce(Vector2.up * (jumpForce * jumpForceMultiplier), ForceMode2D.Impulse);
-            jumpForceMultiplier = 1f;
-            isJumping = true;
+            Jump();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag($"Platform") || !(_rb.linearVelocityY <= 0f)) return;
+            if (!other.gameObject.CompareTag($"Platform") || !(_rb.linearVelocityY <= 0f) || !isJumping) return;
             
             isJumping = false;
         }
-
-        private void OnTriggerEnter2D(Collider2D other)
+        
+        internal void Jump()
         {
-            if (other.gameObject.name != "magnet") return;
+            const float startVelocityY = 0.01f;
+            _rb.linearVelocity = new Vector2(_rb.linearVelocityX, startVelocityY);
             
-            if (other.gameObject.transform.parent.TryGetComponent<BoostPlatform>(out var platform))
-            {
-                platform.PlayerOn();
-            }
-            
-            isJumping = false;
+            _rb.AddForce(Vector2.up * (jumpForce * jumpForceMultiplier), ForceMode2D.Impulse);
+            jumpForceMultiplier = 1f;
+            isJumping = true;
         }
     }
 }

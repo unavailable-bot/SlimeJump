@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Core
 {
-    public class GameManager : MonoBehaviour
+    internal sealed class GameManager : MonoBehaviour
     {
         private const float distanceBetweenBackgrounds = 10.8f;
         private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;

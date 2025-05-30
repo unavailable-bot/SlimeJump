@@ -3,7 +3,7 @@ using Player;
 
 namespace Platform
 {
-    public class BoostPlatform : MonoBehaviour
+    internal sealed class BoostPlatform : MonoBehaviour
     {
         internal void PlayerOn()
         {

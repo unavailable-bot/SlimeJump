@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class SwitchElement : MonoBehaviour
+    internal sealed class SwitchElement : MonoBehaviour
     {
         public static AnimatorController MagmaSlime { get; private set; }
         public static AnimatorController IceSlime { get; private set; }

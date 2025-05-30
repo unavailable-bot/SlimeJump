@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace CamScript
 {
-    public class CamFollower : MonoBehaviour
+    internal sealed class CamFollower : MonoBehaviour
     {
-        private const float speedMultiplier = 2f;
+        private const float followSpeedMultiplier = 2f;
         private Rigidbody2D _playerRb;
 
         private void Start()
@@ -14,15 +14,15 @@ namespace CamScript
 
         private void LateUpdate()
         {
-            float diff = _playerRb.transform.position.y - this.transform.position.y;
-            float maxDiff = 1f;
+            float distanceDiff = _playerRb.transform.position.y - this.transform.position.y;
+            float maxDistanceDiff = 1f;
             
-            if (!(diff > maxDiff)) return;
+            if (!(distanceDiff > maxDistanceDiff)) return;
             
-            float targetY = Mathf.Max(_playerRb.transform.position.y, 0f); // Всегда >= 0
-            Vector3 targetPosition = new Vector3(this.transform.position.x, targetY, this.transform.position.z);
+            float targetPositionY = Mathf.Max(_playerRb.transform.position.y, 0f);
+            Vector3 targetPosition = new Vector3(this.transform.position.x, targetPositionY, this.transform.position.z);
             
-            float followSpeed = speedMultiplier * Mathf.Abs(_playerRb.linearVelocityY) * Time.deltaTime;
+            float followSpeed = followSpeedMultiplier * Mathf.Abs(_playerRb.linearVelocityY) * Time.deltaTime;
             this.transform.position = Vector3.MoveTowards(this.transform.position, targetPosition, followSpeed);
         }
     }

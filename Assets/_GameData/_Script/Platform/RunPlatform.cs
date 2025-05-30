@@ -3,7 +3,7 @@ using Random = System.Random;
 
 namespace Platform
 {
-    public class RunPlatform : MonoBehaviour
+    internal sealed class RunPlatform : MonoBehaviour
     {
         private const float halfWidthPlatform = 1.2f;
         private static float runSpeed = 3f;
@@ -35,9 +35,14 @@ namespace Platform
             this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, runSpeed * Time.deltaTime);
         }
 
+        internal void PlayerOn()
+        {
+            runSpeed = 9f;
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.name == "Player")
+            if (other.gameObject.name == "Player" && other.gameObject.GetComponent<Rigidbody2D>().linearVelocityY <= 0f)
             {
                 PlayerOn();
             }
@@ -52,11 +57,6 @@ namespace Platform
                 0 => -endPoint,
                 _ => endPoint
             };
-        }
-
-        private static void PlayerOn()
-        {
-            runSpeed = 9f;
         }
     }
 }
