@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Core
 {
     public class GameManager : MonoBehaviour
     {
         private const float distanceBetweenBackgrounds = 10.8f;
+        private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;
         private int floorsCompleted;
+        private float halfHeightCam;
 
-        private List<GameObject> _backgrounds = new();
+        private readonly List<GameObject> _backgrounds = new();
         private Transform _player;
+        private Camera _camera;
         
         private void Start()
         {
@@ -18,23 +22,30 @@ namespace Core
                 _backgrounds.Add(child.gameObject);
             }
             
-            //_camera = GameObject.Find("Main Camera").transform;
+            _camera = Camera.main;
+            if (_camera != null) halfHeightCam = _camera.orthographicSize + 0.15f;
+            
             _player = GameObject.Find("Player").transform;
         }
 
         private void Update()
         {
-            int currentFloor = 1;//Mathf.FloorToInt(_camera.position.y / distanceBetweenBackgrounds);
+            int currentFloor = Mathf.FloorToInt(_camera.transform.position.y / distanceBetweenBackgrounds);
             
             if (currentFloor > floorsCompleted)
             {
                 TransitionToNextFloor();
             }
+
+            if (_player.position.y < _camera.transform.position.y - halfHeightCam)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
         
         private void TransitionToNextFloor()
         {
-            _backgrounds[0].transform.position += new Vector3(0f, distanceBetweenBackgrounds * 3, 0f);
+            _backgrounds[0].transform.position += new Vector3(0f, distanceBetweenLastBackground, 0f);
             _backgrounds.Add(_backgrounds[0]);
             _backgrounds.RemoveAt(0);
                 
