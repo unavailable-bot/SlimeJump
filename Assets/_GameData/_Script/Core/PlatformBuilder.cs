@@ -61,9 +61,9 @@ namespace Core
 
         private void BuildStartFloors()
         {
-            for (int i = 0; i < 3; i++)
+            foreach (var background in _gameManager._backgrounds)
             {
-                float topY = _gameManager._backgrounds[i].transform.position.y + _camera.aspect;
+                float topY = background.transform.position.y + _camera.aspect;
                 BuildFloor(topY);
             }
         }
