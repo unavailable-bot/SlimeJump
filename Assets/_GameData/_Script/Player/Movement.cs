@@ -1,3 +1,4 @@
+using Platform;
 using UnityEngine;
 
 namespace Player
@@ -5,9 +6,32 @@ namespace Player
     public class Movement : MonoBehaviour
     {
         private const float moveSpeed = 10f;
-        private const float jumpForce = 8f;
-        private float jumpForceMultiplier = 1f;
-        private bool isJumping;
+        private const float jumpForce = 10f;
+        private const float borderX = 10f;
+        private const float fixedValue = 0.5f;
+        private const float maxJumpForce = 1.5f;
+        
+        private static float jumpForceMultiplier = 1f;
+        private bool isJumping = true;
+
+        public static float JumpForceMultiplier
+        {
+            set
+            {
+                if (value is > fixedValue or < fixedValue)
+                {
+                    value = fixedValue;
+                }
+                
+                if (jumpForceMultiplier >= maxJumpForce)
+                {
+                    jumpForceMultiplier = maxJumpForce;
+                    return;
+                }
+                
+                jumpForceMultiplier += value;
+            }
+        }
 
         private Rigidbody2D _rb;
         private Vector2 _moveDir;
@@ -20,20 +44,19 @@ namespace Player
         private void Update()
         {
             float moveHorizontal = Input.GetAxisRaw("Horizontal");
-            _moveDir = new Vector2(moveHorizontal * moveSpeed, _rb.linearVelocity.y);
+            _moveDir = new Vector2(moveHorizontal * moveSpeed, _rb.linearVelocityY);
             
-            if(transform.position.x > 10f)
-                transform.position = new Vector2(-10f, transform.position.y);
-            if(transform.position.x < -10f)
-                transform.position = new Vector2(10f, transform.position.y);
+            if(transform.position.x > borderX)
+                transform.position = new Vector2(-borderX, transform.position.y);
+            if(transform.position.x < -borderX)
+                transform.position = new Vector2(borderX, transform.position.y);
         }
         
         private void FixedUpdate()
         {
-            
             _rb.linearVelocity = _moveDir;
-
-            if (isJumping || !(_rb.linearVelocity.y <= 0)) return;
+            
+            if (isJumping || !(_rb.linearVelocityY <= 0f)) return;
             
             _rb.AddForce(Vector2.up * (jumpForce * jumpForceMultiplier), ForceMode2D.Impulse);
             jumpForceMultiplier = 1f;
@@ -42,19 +65,21 @@ namespace Player
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag($"Platform") && _rb.linearVelocity.y <= 0)
-            {
-                isJumping = false;
-                //_tJumpBoost(other);
-            }
+            if (!other.gameObject.CompareTag($"Platform") || !(_rb.linearVelocityY <= 0f)) return;
+            
+            isJumping = false;
         }
 
-        private void _tJumpBoost(Collision2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.name == "MagmaPlatform")
+            if (other.gameObject.name != "magnet") return;
+            
+            if (other.gameObject.transform.parent.TryGetComponent<BoostPlatform>(out var platform))
             {
-                jumpForceMultiplier += 1f;
+                platform.PlayerOn();
             }
+            
+            isJumping = false;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Core
         private const float distanceBetweenBackgrounds = 10.8f;
         private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;
         private int floorsCompleted;
-        private float halfHeightCam;
+        private float halfHeightCam = 0.15f;
 
         private readonly List<GameObject> _backgrounds = new();
         private Transform _player;
@@ -23,7 +23,7 @@ namespace Core
             }
             
             _camera = Camera.main;
-            if (_camera != null) halfHeightCam = _camera.orthographicSize + 0.15f;
+            if (_camera != null) halfHeightCam += _camera.orthographicSize;
             
             _player = GameObject.Find("Player").transform;
         }
