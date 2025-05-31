@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Platform;
 
 namespace Core
 {
     public class PlatformBuilder : MonoBehaviour
     {
+        private const int startFloorsCount = 3;
         private const float halfWidthPlatform = 1.2f;
         private const float leftBorderX = -10f + halfWidthPlatform;
         private const float rightBorderX = 10f - halfWidthPlatform;
         private const float minDistanceBetweenPlatform = 1f;
         private const float maxDistanceBetweenPlatform = 5.75f;
         private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
-        private const float levelHeight = 108f;
-        private float levelsCompleted;
+        private int currentFloorIndex = 1;
         
         [SerializeField] private GameObject _startPlatform;
         [SerializeField] private List<GameObject> _platforms;
@@ -28,6 +29,8 @@ namespace Core
             _camera = Camera.main;
             _lastPlatform = _startPlatform.transform;
             _platformsQueue = new Queue<GameObject>();
+            _startPlatform.GetComponent<PlatformLevelMarker>().levelIndex = 1;
+            _platformsQueue.Enqueue(_startPlatform);
             BuildStartFloors();
         }
 
@@ -35,9 +38,11 @@ namespace Core
         {
             if (_gameManager.IsBuildRequest)
             {
+                UpdateCurrentMaxDistance();
+                
+                RemoveCompletedFloor(currentFloorIndex - startFloorsCount);
+                
                 float topY = _gameManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
-                UpdateCurrentMaxDistance(_gameManager._backgrounds[^1].transform.position.y);
-                RemoveCompletedFloor();
                 BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
             }
         }
@@ -94,27 +99,37 @@ namespace Core
             foreach (var position in newPositions)
             {
                 GameObject newPlatform = Instantiate(_platforms[GetRandomNumber()], position, Quaternion.identity);
+                newPlatform.GetComponent<PlatformLevelMarker>().levelIndex = currentFloorIndex;
                 _platformsQueue.Enqueue(newPlatform);
                 _lastPlatform = newPlatform.transform;
             }
-            
+
+            currentFloorIndex++;
             _gameManager.IsBuildRequest = false;
         }
 
-        private void RemoveCompletedFloor()
+        private void RemoveCompletedFloor(int passedLevel)
         {
-            foreach (var platform in _platformsQueue)
+            int count = _platformsQueue.Count;
+            for (int i = 0; i < count; i++)
             {
-                Destroy(platform);
+                GameObject platform = _platformsQueue.Dequeue();
+                PlatformLevelMarker marker = platform.GetComponent<PlatformLevelMarker>();
+                if (marker is not null && marker.levelIndex == passedLevel)
+                {
+                    Destroy(platform);
+                }
+                else
+                {
+                    _platformsQueue.Enqueue(platform);
+                }
             }
-            _platformsQueue.Clear();
         }
 
-        private void UpdateCurrentMaxDistance(float currentFloorPositionY)
+        private void UpdateCurrentMaxDistance()
         {
-            if (!(currentFloorPositionY >= levelsCompleted + levelHeight)) return;
+            if (currentFloorIndex % 10 != 0) return;
             
-            levelsCompleted += levelHeight;
             currentMaxDistanceBetweenPlatforms++;
             
             if (currentMaxDistanceBetweenPlatforms >= maxDistanceBetweenPlatform)
