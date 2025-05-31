@@ -70,7 +70,7 @@ namespace Player
                 return;
             }
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
             {
                 SwitchElement.BoostScoreMultiplier();
             }
