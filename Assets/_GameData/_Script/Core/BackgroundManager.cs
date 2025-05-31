@@ -10,14 +10,7 @@ namespace Core
         private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;
         private int floorsCompleted;
         private float halfHeightCam = 0.15f;
-        
-        private bool isBuildRequest;
-
-        public bool IsBuildRequest
-        {
-            get => isBuildRequest;
-            set => isBuildRequest = value;
-        }
+        public bool IsBuildRequest { get; set; }
 
         internal readonly List<GameObject> _backgrounds = new();
         private Transform _player;
@@ -43,7 +36,7 @@ namespace Core
             if (currentFloor > floorsCompleted)
             {
                 TransitionToNextFloor();
-                isBuildRequest = true;
+                IsBuildRequest = true;
             }
 
             if (_player.position.y < _camera.transform.position.y - halfHeightCam)

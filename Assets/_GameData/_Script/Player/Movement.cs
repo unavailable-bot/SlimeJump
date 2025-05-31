@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Player
 {
-    internal class Movement : MonoBehaviour
+    internal sealed class Movement : MonoBehaviour
     {
         private const float moveSpeed = 10f;
-        private const float jumpForce = 10f;
+        private const float jumpForce = 30f;
         private const float borderX = 10f;
         private const float fixedValue = 0.5f;
         private const float maxJumpForce = 1.5f;

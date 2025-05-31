@@ -4,7 +4,7 @@ using Platform;
 
 namespace Core
 {
-    public class PlatformBuilder : MonoBehaviour
+    public sealed class PlatformBuilder : MonoBehaviour
     {
         private const int startFloorsCount = 3;
         private const float halfWidthPlatform = 1.2f;
@@ -36,18 +36,17 @@ namespace Core
 
         private void Update()
         {
-            if (_backgroundManager.IsBuildRequest)
-            {
-                UpdateCurrentMaxDistance();
+            if (!_backgroundManager.IsBuildRequest) return;
+            
+            UpdateCurrentMaxDistance();
                 
-                RemoveCompletedFloor(currentFloorIndex - startFloorsCount);
+            RemoveCompletedFloor(currentFloorIndex - startFloorsCount);
                 
-                float topY = _backgroundManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
-                BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
-            }
+            float topY = _backgroundManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
+            BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
         }
 
-        private int GetRandomNumber()
+        private static int GetRandomNumber()
         {
             int[] numbers = {0, 1, 2, 3};
             float[] weights = { 10f, 20f, 50f, 50f };

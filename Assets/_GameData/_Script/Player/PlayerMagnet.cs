@@ -28,7 +28,7 @@ namespace Player
             _playerMovement.Jump();
         }
 
-        private void BoostPlatformCase(Collider2D other)
+        private static void BoostPlatformCase(Collider2D other)
         {
             if (other.gameObject.transform.parent.TryGetComponent(out BoostPlatform platform))
             {
@@ -36,7 +36,7 @@ namespace Player
             }
         }
 
-        private void RunPlatformCase(Collider2D other)
+        private static void RunPlatformCase(Collider2D other)
         {
             if (other.gameObject.transform.parent.TryGetComponent(out RunPlatform platform))
             {
@@ -44,7 +44,7 @@ namespace Player
             }
         }
 
-        private void IcePlatformCase(Collider2D other)
+        private static void IcePlatformCase(Collider2D other)
         {
             if (other.gameObject.transform.parent.TryGetComponent(out IcePlatform platform))
             {
@@ -52,7 +52,7 @@ namespace Player
             }
         }
 
-        private void MagmaPlatformCase(Collider2D other)
+        private static void MagmaPlatformCase(Collider2D other)
         {
             if (other.gameObject.transform.parent.TryGetComponent(out MagmaPlatform platform))
             {

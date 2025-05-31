@@ -37,7 +37,7 @@ namespace Platform
 
         internal void PlayerOn()
         {
-            runSpeed = 9f;
+            runSpeed += 0.3f;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
