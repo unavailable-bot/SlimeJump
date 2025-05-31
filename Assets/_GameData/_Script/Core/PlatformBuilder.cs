@@ -14,6 +14,10 @@ namespace Core
         private const float maxDistanceBetweenPlatform = 6f;
         private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
         private int currentFloorIndex = 1;
+        [SerializeField] private float weightBoostPf = 10f;
+        [SerializeField] private float weightRunPf = 20f;
+        [SerializeField] private float weightMagmaPf = 50f;
+        [SerializeField] private float weightIcePf = 50f;
         
         [SerializeField] private GameObject _startPlatform;
         [SerializeField] private List<GameObject> _platforms;
@@ -46,10 +50,10 @@ namespace Core
             BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
         }
 
-        private static int GetRandomNumber()
+        private int GetRandomNumber()
         {
             int[] numbers = {0, 1, 2, 3};
-            float[] weights = { 10f, 20f, 50f, 50f };
+            float[] weights = { weightBoostPf, weightRunPf, weightMagmaPf, weightIcePf};
 
             float total = 0f;
             foreach (var weight in weights)

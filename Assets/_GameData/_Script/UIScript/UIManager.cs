@@ -1,8 +1,9 @@
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Core
+namespace UIScript
 {
     public sealed class UIManager : MonoBehaviour
     {
@@ -59,7 +60,7 @@ namespace Core
                 new Color32(150, 0, 0, 255)  // нижний правый
             );
 
-            _scoreText.text = $"Y | {score}";
+            _scoreText.text = $"Y | {score} x {SwitchElement.ScoreMultiplier}";
         }
         
         private void UpdateUI()
@@ -67,8 +68,8 @@ namespace Core
             if(_player.transform.position.y <= higherPlayerPosition) return;
             
             higherPlayerPosition = _player.transform.position.y;
-            score = (int)_player.transform.position.y * scoreMultiplier;
-            _scoreText.text = $"Y | {score}";
+            score = (int)_player.transform.position.y * scoreMultiplier * (int)SwitchElement.ScoreMultiplier;
+            _scoreText.text = $"Y | {score} x {SwitchElement.ScoreMultiplier}";
         }
     }
 }

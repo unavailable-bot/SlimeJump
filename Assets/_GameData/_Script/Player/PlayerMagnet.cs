@@ -44,19 +44,35 @@ namespace Player
             }
         }
 
-        private static void IcePlatformCase(Collider2D other)
+        private void IcePlatformCase(Collider2D other)
         {
-            if (other.gameObject.transform.parent.TryGetComponent(out IcePlatform platform))
+            if (!other.gameObject.transform.parent.TryGetComponent(out IcePlatform platform)) return;
+            
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
             {
                 platform.PlayerOn();
+                return;
+            }
+            
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.IceSlime.name)
+            {
+                SwitchElement.BoostScoreMultiplier();
             }
         }
 
-        private static void MagmaPlatformCase(Collider2D other)
+        private void MagmaPlatformCase(Collider2D other)
         {
-            if (other.gameObject.transform.parent.TryGetComponent(out MagmaPlatform platform))
+            if (!other.gameObject.transform.parent.TryGetComponent(out MagmaPlatform platform)) return;
+            
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.IceSlime.name)
             {
                 platform.PlayerOn();
+                return;
+            }
+            
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
+            {
+                SwitchElement.BoostScoreMultiplier();
             }
         }
     }
