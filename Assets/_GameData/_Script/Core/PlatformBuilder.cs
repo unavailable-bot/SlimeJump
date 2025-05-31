@@ -21,11 +21,11 @@ namespace Core
         private Camera _camera;
         private Transform _lastPlatform;
         
-        private GameManager _gameManager;
+        private BackgroundManager _backgroundManager;
 
         private void Start()
         {
-            _gameManager = GameObject.Find("BackgroundHolder").GetComponent<GameManager>();
+            _backgroundManager = GameObject.Find("BackgroundManager").GetComponent<BackgroundManager>();
             _camera = Camera.main;
             _lastPlatform = _startPlatform.transform;
             _platformsQueue = new Queue<GameObject>();
@@ -36,13 +36,13 @@ namespace Core
 
         private void Update()
         {
-            if (_gameManager.IsBuildRequest)
+            if (_backgroundManager.IsBuildRequest)
             {
                 UpdateCurrentMaxDistance();
                 
                 RemoveCompletedFloor(currentFloorIndex - startFloorsCount);
                 
-                float topY = _gameManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
+                float topY = _backgroundManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
                 BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
             }
         }
@@ -73,7 +73,7 @@ namespace Core
 
         private void BuildStartFloors()
         {
-            foreach (var background in _gameManager._backgrounds)
+            foreach (var background in _backgroundManager._backgrounds)
             {
                 float topY = background.transform.position.y + _camera.orthographicSize;
                 BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
@@ -105,7 +105,7 @@ namespace Core
             }
 
             currentFloorIndex++;
-            _gameManager.IsBuildRequest = false;
+            _backgroundManager.IsBuildRequest = false;
         }
 
         private void RemoveCompletedFloor(int passedLevel)
