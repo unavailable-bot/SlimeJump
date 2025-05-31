@@ -27,7 +27,6 @@ namespace Player
         {
             if(ScoreMultiplier >= 10f) return;
             ScoreMultiplier++;
-            //_scoreText.fontSize += ScoreMultiplier / 2;
         }
 
         internal static void SetMagmaForm()

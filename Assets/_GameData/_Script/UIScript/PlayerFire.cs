@@ -18,6 +18,7 @@ namespace UIScript
         private void Start()
         {
             _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
