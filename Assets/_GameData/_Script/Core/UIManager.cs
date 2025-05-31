@@ -53,10 +53,10 @@ namespace Core
             // Градиент (пример — отключи если не надо)
             _scoreText.enableVertexGradient = true;
             _scoreText.colorGradient = new VertexGradient(
-                new Color32(255, 255, 200, 255), // верхний левый
-                new Color32(255, 255, 200, 255), // верхний правый
-                new Color32(230, 200, 100, 255), // нижний левый
-                new Color32(230, 200, 100, 255)  // нижний правый
+                new Color32(10, 50, 0, 150), // верхний левый
+                new Color32(150, 0, 0, 255), // верхний правый
+                new Color32(10, 50, 0, 150), // нижний левый
+                new Color32(150, 0, 0, 255)  // нижний правый
             );
 
             _scoreText.text = $"Y | {score}";

@@ -15,6 +15,8 @@ namespace Platform
         
         private void Start()
         {
+            runSpeed = 3f;
+            
             endPoint =  Camera.main!.transform.position.x + halfWidthPlatform - (Camera.main!.orthographicSize * Camera.main.aspect);
             
             _leftDir = new Vector3(endPoint, transform.position.y, transform.position.z);
@@ -37,7 +39,7 @@ namespace Platform
 
         internal void PlayerOn()
         {
-            runSpeed += 0.3f;
+            runSpeed += 0.5f;
         }
 
         private void OnCollisionEnter2D(Collision2D other)

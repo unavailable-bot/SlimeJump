@@ -11,7 +11,7 @@ namespace Core
         private const float leftBorderX = -10f + halfWidthPlatform;
         private const float rightBorderX = 10f - halfWidthPlatform;
         private const float minDistanceBetweenPlatform = 1f;
-        private const float maxDistanceBetweenPlatform = 5.75f;
+        private const float maxDistanceBetweenPlatform = 6f;
         private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
         private int currentFloorIndex = 1;
         
