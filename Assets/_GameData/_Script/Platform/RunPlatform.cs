@@ -3,7 +3,7 @@ using Random = System.Random;
 
 namespace Platform
 {
-    internal sealed class RunPlatform : MonoBehaviour
+    internal sealed class RunPlatform : PlatformLevelMarker
     {
         private const float halfWidthPlatform = 1.2f;
         private static float runSpeed = 3f;

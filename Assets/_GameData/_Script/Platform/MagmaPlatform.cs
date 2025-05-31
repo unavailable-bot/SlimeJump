@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Platform
 {
-    internal sealed class MagmaPlatform : MonoBehaviour
+    internal sealed class MagmaPlatform : PlatformLevelMarker
     {
         internal void PlayerOn()
         {

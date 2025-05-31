@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Platform
 {
-    internal sealed class IcePlatform : MonoBehaviour
+    internal sealed class IcePlatform : PlatformLevelMarker
     {
         internal void PlayerOn()
         {

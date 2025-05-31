@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Platform
 {
-    internal sealed class BoostPlatform : MonoBehaviour
+    internal sealed class BoostPlatform : PlatformLevelMarker
     {
         internal void PlayerOn()
         {
