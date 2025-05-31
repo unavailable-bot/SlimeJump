@@ -27,7 +27,8 @@ namespace UIScript
             {
                 SetIceFire();
             }
-            else
+            
+            if (!_uiManager.IsIceForm && _animator.runtimeAnimatorController.name != _magmaFire.name)
             {
                 SetMagmaFire();
             }

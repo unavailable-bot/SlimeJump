@@ -25,8 +25,13 @@ namespace Player
 
         internal static void BoostScoreMultiplier()
         {
-            if(ScoreMultiplier >= 10f) return;
-            ScoreMultiplier++;
+            if (ScoreMultiplier >= 3f) return;
+            
+            ScoreMultiplier += 0.3f;
+            if (ScoreMultiplier > 3)
+            {
+                ScoreMultiplier = 3f;
+            }
         }
 
         internal static void SetMagmaForm()

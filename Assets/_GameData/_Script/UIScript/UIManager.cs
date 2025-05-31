@@ -13,7 +13,6 @@ namespace UIScript
         
         private float score;
         private float higherPlayerPosition;
-        private const float scoreMultiplier = 0.9f;
 
         internal bool IsIceForm { get; set; } = true;
         
@@ -71,7 +70,7 @@ namespace UIScript
             if(_player.transform.position.y <= higherPlayerPosition) return;
             
             higherPlayerPosition = _player.transform.position.y;
-            score += (int)_player.transform.position.y * scoreMultiplier * (int)SwitchElement.ScoreMultiplier;
+            score += (int)(_player.transform.position.y * SwitchElement.ScoreMultiplier) / 100f;
             _scoreText.text = $"Y | {(int)score} x {SwitchElement.ScoreMultiplier}";
         }
         
