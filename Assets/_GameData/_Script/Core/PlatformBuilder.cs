@@ -8,11 +8,15 @@ namespace Core
         private const float halfWidthPlatform = 1.2f;
         private const float leftBorderX = -10f + halfWidthPlatform;
         private const float rightBorderX = 10f - halfWidthPlatform;
-        private const float minDistanceBetweenPlatform = 2f;
-        private const float maxDistanceBetweenPlatform = 4f;
+        private const float minDistanceBetweenPlatform = 1f;
+        private const float maxDistanceBetweenPlatform = 5.75f;
+        private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
+        private const float levelHeight = 108f;
+        private float levelsCompleted;
         
         [SerializeField] private GameObject _startPlatform;
         [SerializeField] private List<GameObject> _platforms;
+        private Queue<GameObject> _platformsQueue;
         private Camera _camera;
         private Transform _lastPlatform;
         
@@ -23,6 +27,7 @@ namespace Core
             _gameManager = GameObject.Find("BackgroundHolder").GetComponent<GameManager>();
             _camera = Camera.main;
             _lastPlatform = _startPlatform.transform;
+            _platformsQueue = new Queue<GameObject>();
             BuildStartFloors();
         }
 
@@ -30,8 +35,10 @@ namespace Core
         {
             if (_gameManager.IsBuildRequest)
             {
-                float topY = _gameManager._backgrounds[^1].transform.position.y + _camera.aspect;
-                BuildFloor(topY);
+                float topY = _gameManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
+                UpdateCurrentMaxDistance(_gameManager._backgrounds[^1].transform.position.y);
+                RemoveCompletedFloor();
+                BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
             }
         }
 
@@ -63,12 +70,12 @@ namespace Core
         {
             foreach (var background in _gameManager._backgrounds)
             {
-                float topY = background.transform.position.y + _camera.aspect;
-                BuildFloor(topY);
+                float topY = background.transform.position.y + _camera.orthographicSize;
+                BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
             }
         }
 
-        private void BuildFloor(float topY)
+        private void BuildFloor(float topY, float currentMaxDistance)
         {
             List<Vector2> newPositions = new();
             Vector2 _lastPosition = _lastPlatform.position;
@@ -76,7 +83,7 @@ namespace Core
             while (true)
             {
                 float newPointX = Random.Range(leftBorderX, rightBorderX);
-                float newPointY = Random.Range(_lastPosition.y + minDistanceBetweenPlatform, _lastPosition.y + maxDistanceBetweenPlatform);
+                float newPointY = Random.Range(_lastPosition.y + minDistanceBetweenPlatform, _lastPosition.y + currentMaxDistance);
                 
                 if(newPointY > topY) break;
                 
@@ -87,10 +94,33 @@ namespace Core
             foreach (var position in newPositions)
             {
                 GameObject newPlatform = Instantiate(_platforms[GetRandomNumber()], position, Quaternion.identity);
+                _platformsQueue.Enqueue(newPlatform);
                 _lastPlatform = newPlatform.transform;
             }
             
             _gameManager.IsBuildRequest = false;
+        }
+
+        private void RemoveCompletedFloor()
+        {
+            foreach (var platform in _platformsQueue)
+            {
+                Destroy(platform);
+            }
+            _platformsQueue.Clear();
+        }
+
+        private void UpdateCurrentMaxDistance(float currentFloorPositionY)
+        {
+            if (!(currentFloorPositionY >= levelsCompleted + levelHeight)) return;
+            
+            levelsCompleted += levelHeight;
+            currentMaxDistanceBetweenPlatforms++;
+            
+            if (currentMaxDistanceBetweenPlatforms >= maxDistanceBetweenPlatform)
+            {
+                currentMaxDistanceBetweenPlatforms = maxDistanceBetweenPlatform;
+            }
         }
     }
 }
