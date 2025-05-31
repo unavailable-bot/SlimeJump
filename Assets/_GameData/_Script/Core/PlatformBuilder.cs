@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Platform;
+using Random = UnityEngine.Random;
 
 namespace Core
 {
@@ -28,6 +30,11 @@ namespace Core
         private BackgroundManager _backgroundManager;
 
         private void Start()
+        {
+            this.gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
         {
             _backgroundManager = GameObject.Find("BackgroundManager").GetComponent<BackgroundManager>();
             _camera = Camera.main;
