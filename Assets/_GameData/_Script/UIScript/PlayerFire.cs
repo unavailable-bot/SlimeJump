@@ -1,6 +1,5 @@
 using Player;
 using UnityEngine;
-using UnityEditor.Animations;
 
 namespace UIScript
 {
@@ -12,8 +11,8 @@ namespace UIScript
         
         private Animator _animator;
 
-        [SerializeField] private AnimatorController _iceFire;
-        [SerializeField] private AnimatorController _magmaFire;
+        [SerializeField] private RuntimeAnimatorController _iceFire;
+        [SerializeField] private RuntimeAnimatorController _magmaFire;
         
         private void Start()
         {
@@ -33,14 +32,14 @@ namespace UIScript
                 SetMagmaFire();
             }
             
-            float scaleMultiplier = SwitchElement.ScoreMultiplier / 10;
+            float scaleMultiplier = SwitchElement.Instance.ScoreMultiplier / 10;
             Vector3 newScale = new(scaleMultiplier,scaleMultiplier,scaleMultiplier);
-            if (SwitchElement.ScoreMultiplier > 1 && this.transform.localScale.magnitude < maxScale)
+            if (SwitchElement.Instance.ScoreMultiplier > 1 && this.transform.localScale.magnitude < maxScale)
             {
                 StartCoroutine(_uiManager.ScaleTo(this.transform,this.transform.localScale + newScale, 0.5f));
             }
 
-            if (this.transform.localScale != Vector3.one && Mathf.Approximately(SwitchElement.ScoreMultiplier, 1f))
+            if (this.transform.localScale != Vector3.one && Mathf.Approximately(SwitchElement.Instance.ScoreMultiplier, 1f))
             {
                 StartCoroutine(_uiManager.ScaleTo(this.transform, Vector3.one, 0.5f));
             }

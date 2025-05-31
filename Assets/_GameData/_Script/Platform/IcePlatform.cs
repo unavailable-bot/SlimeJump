@@ -15,7 +15,7 @@ namespace Platform
         
         internal void PlayerOn()
         {
-            SwitchElement.SetIceForm();
+            SwitchElement.Instance.SetIceForm();
             StartCoroutine(_uiManager.SmoothScoreFontSize(48f, 0.5f));
         }
 
@@ -23,15 +23,32 @@ namespace Platform
         {
             if (other.gameObject.name != "Player" || !(other.gameObject.GetComponent<Rigidbody2D>().linearVelocityY <= 0f)) return;
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
+            var animator = other.gameObject.GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogWarning("Animator is NULL!");
+                return;
+            }
+            if (animator.runtimeAnimatorController == null)
+            {
+                Debug.LogWarning("runtimeAnimatorController is NULL!");
+                return;
+            }
+            if (SwitchElement.Instance.MagmaSlime == null)
+            {
+                Debug.LogWarning("SwitchElement.MagmaSlime is NULL!");
+                return;
+            }
+            
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.MagmaSlime.name)
             {
                 PlayerOn();
                 return;
             }
 
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.IceSlime.name)
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.IceSlime.name)
             {
-                SwitchElement.BoostScoreMultiplier();
+                SwitchElement.Instance.BoostScoreMultiplier();
             }
         }
     }

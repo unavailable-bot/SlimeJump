@@ -15,7 +15,7 @@ namespace Platform
         
         internal void PlayerOn()
         {
-            SwitchElement.SetMagmaForm();
+            SwitchElement.Instance.SetMagmaForm();
             StartCoroutine(_uiManager.SmoothScoreFontSize(48f, 0.5f));
         }
 
@@ -23,15 +23,15 @@ namespace Platform
         {
             if (other.gameObject.name != "Player" || !(other.gameObject.GetComponent<Rigidbody2D>().linearVelocityY <= 0f)) return;
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.IceSlime.name)
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.IceSlime.name)
             {
                 PlayerOn();
                 return;
             }
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.MagmaSlime.name)
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.MagmaSlime.name)
             {
-                SwitchElement.BoostScoreMultiplier();
+                SwitchElement.Instance.BoostScoreMultiplier();
             }
         }
     }

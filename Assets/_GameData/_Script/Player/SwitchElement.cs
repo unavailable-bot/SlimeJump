@@ -1,4 +1,3 @@
-using UnityEditor.Animations;
 using UnityEngine;
 using UIScript;
 
@@ -6,24 +5,26 @@ namespace Player
 {
     internal sealed class SwitchElement : MonoBehaviour
     {
-        internal static AnimatorController MagmaSlime { get; private set; }
-        internal static AnimatorController IceSlime { get; private set; }
-        private static Animator _animator;
-        private static UIManager _uiManager;
+        public static SwitchElement Instance { get; private set; }
+        internal RuntimeAnimatorController MagmaSlime { get; private set; }
+        internal RuntimeAnimatorController IceSlime { get; private set; }
+        private Animator _animator;
+        private UIManager _uiManager;
 
-        internal static float ScoreMultiplier { get; private set; }
+        internal float ScoreMultiplier { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
+            Instance = this;
             ScoreMultiplier = 1f;
-            MagmaSlime = Resources.Load<AnimatorController>($"Animators/Player/magmaSlime");
-            IceSlime = Resources.Load<AnimatorController>($"Animators/Player/iceSlime");
+            MagmaSlime = Resources.Load<RuntimeAnimatorController>($"Animators/Player/magmaSlime");
+            IceSlime = Resources.Load<RuntimeAnimatorController>($"Animators/Player/iceSlime");
             _animator = GetComponent<Animator>();
             _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
             _animator.runtimeAnimatorController = IceSlime;
         }
 
-        internal static void BoostScoreMultiplier()
+        internal void BoostScoreMultiplier()
         {
             if (ScoreMultiplier >= 3f) return;
             
@@ -34,14 +35,14 @@ namespace Player
             }
         }
 
-        internal static void SetMagmaForm()
+        internal void SetMagmaForm()
         {
             ScoreMultiplier = 1f;
             _animator.runtimeAnimatorController = MagmaSlime;
             _uiManager.IsIceForm = false;
         }
         
-        internal static void SetIceForm()
+        internal void SetIceForm()
         {
             ScoreMultiplier = 1f;
             _animator.runtimeAnimatorController = IceSlime;
