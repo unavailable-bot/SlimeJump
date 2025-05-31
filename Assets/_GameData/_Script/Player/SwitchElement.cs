@@ -16,8 +16,8 @@ namespace Player
         private void Start()
         {
             ScoreMultiplier = 1f;
-            MagmaSlime = Resources.Load<AnimatorController>($"Animators/magmaSlime");
-            IceSlime = Resources.Load<AnimatorController>($"Animators/iceSlime");
+            MagmaSlime = Resources.Load<AnimatorController>($"Animators/Player/magmaSlime");
+            IceSlime = Resources.Load<AnimatorController>($"Animators/Player/iceSlime");
             _animator = GetComponent<Animator>();
             _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
             _animator.runtimeAnimatorController = IceSlime;

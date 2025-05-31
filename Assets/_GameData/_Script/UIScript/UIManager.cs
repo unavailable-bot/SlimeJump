@@ -11,9 +11,9 @@ namespace UIScript
         private TMP_Text _scoreText;
         private Transform _player;
         
-        private int score;
+        private float score;
         private float higherPlayerPosition;
-        private const int scoreMultiplier = 7;
+        private const float scoreMultiplier = 0.9f;
 
         internal bool IsIceForm { get; set; } = true;
         
@@ -63,7 +63,7 @@ namespace UIScript
                 new Color32(150, 0, 0, 255)  // нижний правый
             );
 
-            _scoreText.text = $"Y | {score} x {SwitchElement.ScoreMultiplier}";
+            _scoreText.text = $"Y | {(int)score} x {SwitchElement.ScoreMultiplier}";
         }
         
         private void UpdateUI()
@@ -71,8 +71,8 @@ namespace UIScript
             if(_player.transform.position.y <= higherPlayerPosition) return;
             
             higherPlayerPosition = _player.transform.position.y;
-            score = (int)_player.transform.position.y * scoreMultiplier * (int)SwitchElement.ScoreMultiplier;
-            _scoreText.text = $"Y | {score} x {SwitchElement.ScoreMultiplier}";
+            score += (int)_player.transform.position.y * scoreMultiplier * (int)SwitchElement.ScoreMultiplier;
+            _scoreText.text = $"Y | {(int)score} x {SwitchElement.ScoreMultiplier}";
         }
         
         // Запуск: StartCoroutine(ScaleTo(targetScale, duration));
