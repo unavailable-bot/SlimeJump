@@ -1,12 +1,12 @@
 using UnityEngine;
-using Random = System.Random;
 
 namespace Platform
 {
     internal sealed class RunPlatform : PlatformLevelMarker
     {
         private const float halfWidthPlatform = 1.2f;
-        private static float runSpeed = 3f;
+        private float runSpeed;
+        private static float runSpeedMultiplier;
         private float endPoint;
         
         private Vector3 _leftDir;
@@ -15,7 +15,7 @@ namespace Platform
         
         private void Start()
         {
-            runSpeed = 3f;
+            runSpeed = Random.Range(2f, 4f);
             
             endPoint =  Camera.main!.transform.position.x + halfWidthPlatform - (Camera.main!.orthographicSize * Camera.main.aspect);
             
@@ -34,12 +34,12 @@ namespace Platform
                 _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
             }
             
-            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, runSpeed * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + runSpeedMultiplier) * Time.deltaTime);
         }
 
         internal void PlayerOn()
         {
-            runSpeed += 0.5f;
+            runSpeedMultiplier += 0.5f;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -52,8 +52,7 @@ namespace Platform
 
         private float RandomizeDir()
         {
-            Random _r = new Random();
-            int randomCase = _r.Next(0, 2);
+            int randomCase = Random.Range(0, 2);
             return randomCase switch
             {
                 0 => -endPoint,

@@ -4,7 +4,7 @@ namespace Player
 {
     internal sealed class Movement : MonoBehaviour
     {
-        private const float moveSpeed = 10f;
+        private const float moveSpeed = 13f;
         private const float jumpForce = 30f;
         private const float borderX = 10f;
         private const float fixedValue = 0.5f;
