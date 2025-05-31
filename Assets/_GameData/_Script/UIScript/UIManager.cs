@@ -2,6 +2,7 @@ using Player;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 namespace UIScript
 {
@@ -13,6 +14,8 @@ namespace UIScript
         private int score;
         private float higherPlayerPosition;
         private const int scoreMultiplier = 7;
+
+        internal bool IsIceForm { get; set; } = true;
         
         private void Start()
         {
@@ -70,6 +73,36 @@ namespace UIScript
             higherPlayerPosition = _player.transform.position.y;
             score = (int)_player.transform.position.y * scoreMultiplier * (int)SwitchElement.ScoreMultiplier;
             _scoreText.text = $"Y | {score} x {SwitchElement.ScoreMultiplier}";
+        }
+        
+        // Запуск: StartCoroutine(ScaleTo(targetScale, duration));
+        public IEnumerator ScaleTo(Transform scaleObj, Vector3 targetScale, float duration)
+        {
+            Vector3 startScale = scaleObj.localScale;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                scaleObj.localScale = Vector3.Lerp(startScale, targetScale, elapsed / duration);
+                yield return null;
+            }
+            scaleObj.localScale = targetScale;
+        }
+        
+        // Твоя корутина плавного уменьшения размера
+        internal IEnumerator SmoothScoreFontSize(float targetSize, float duration)
+        {
+            float startSize = _scoreText.fontSize;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                _scoreText.fontSize = Mathf.Lerp(startSize, targetSize, elapsed / duration);
+                yield return null;
+            }
+            _scoreText.fontSize = targetSize;
         }
     }
 }

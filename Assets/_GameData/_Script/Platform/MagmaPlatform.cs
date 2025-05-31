@@ -1,23 +1,22 @@
 using Player;
+using UIScript;
 using UnityEngine;
 
 namespace Platform
 {
     internal sealed class MagmaPlatform : PlatformLevelMarker
     {
-        private Transform _iceFire;
-        private Transform _magmaFire;
+        private UIManager _uiManager;
         
         private void Start()
         {
-            _iceFire = GameObject.Find("IceFire").transform;
-            _magmaFire = GameObject.Find("MagmaFire").transform;
+            _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         }
         
         internal void PlayerOn()
         {
             SwitchElement.SetMagmaForm();
-            StartCoroutine(SwitchElement.SmoothScoreFontSize(48f, 0.5f));
+            StartCoroutine(_uiManager.SmoothScoreFontSize(48f, 0.5f));
         }
 
         private void OnCollisionEnter2D(Collision2D other)
