@@ -6,7 +6,7 @@ namespace Platform
     {
         private const float halfWidthPlatform = 1.2f;
         private float runSpeed;
-        private static float runSpeedMultiplier;
+        private static float runPlatformSpeedMultiplier;
         private float endPoint;
         
         private Vector3 _leftDir;
@@ -34,12 +34,12 @@ namespace Platform
                 _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
             }
             
-            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + runSpeedMultiplier) * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + runPlatformSpeedMultiplier) * Time.deltaTime);
         }
 
         internal void PlayerOn()
         {
-            runSpeedMultiplier += 0.5f;
+            runPlatformSpeedMultiplier += 0.5f;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
