@@ -1,17 +1,19 @@
 using UnityEngine;
+using Core;
 
 namespace Platform
 {
-    internal sealed class RunPlatform : PlatformLevelMarker
+    internal sealed class RunPlatform : Platformer
     {
         private const float halfWidthPlatform = 1.2f;
         private float runSpeed;
-        private static float runPlatformSpeedMultiplier;
+        private const float speedMultiplier = 0.5f;
         private float endPoint;
         
         private Vector3 _leftDir;
         private Vector3 _rightDir;
         private Vector3 _moveDir;
+        
         
         private void Start()
         {
@@ -34,12 +36,12 @@ namespace Platform
                 _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
             }
             
-            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + runPlatformSpeedMultiplier) * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + PlatformManager.Instance.RunPlatformSpeedMultiplier) * Time.deltaTime);
         }
 
-        internal void PlayerOn()
+        internal override void PlayerOn()
         {
-            runPlatformSpeedMultiplier += 0.5f;
+            PlatformManager.Instance.IncreaseMultiplier(speedMultiplier);
         }
 
         private void OnCollisionEnter2D(Collision2D other)

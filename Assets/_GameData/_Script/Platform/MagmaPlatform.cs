@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Platform
 {
-    internal sealed class MagmaPlatform : PlatformLevelMarker
+    internal sealed class MagmaPlatform : Platformer
     {
         private UIManager _uiManager;
         
@@ -13,7 +13,7 @@ namespace Platform
             _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         }
         
-        internal void PlayerOn()
+        internal override void PlayerOn()
         {
             SwitchElement.Instance.SetMagmaForm();
             StartCoroutine(_uiManager.SmoothScoreFontSize(48f, 0.5f));

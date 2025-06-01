@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Platform
 {
-    internal sealed class BoostPlatform : PlatformLevelMarker
+    internal sealed class BoostPlatform : Platformer
     {
-        internal void PlayerOn()
+        internal override void PlayerOn()
         {
             Movement.JumpForceMultiplier = 0.5f;
         }

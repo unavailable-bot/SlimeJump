@@ -38,7 +38,7 @@ namespace Core
             _camera = Camera.main;
             _lastPlatform = _startPlatform.transform;
             _platformsQueue = new Queue<GameObject>();
-            _startPlatform.GetComponent<PlatformLevelMarker>().levelIndex = 1;
+            _startPlatform.GetComponent<Platformer>().levelIndex = 1;
             _platformsQueue.Enqueue(_startPlatform);
             BuildStartFloors();
         }
@@ -107,7 +107,7 @@ namespace Core
             foreach (var position in newPositions)
             {
                 GameObject newPlatform = Instantiate(_platforms[GetRandomNumber()], position, Quaternion.identity);
-                newPlatform.GetComponent<PlatformLevelMarker>().levelIndex = currentFloorIndex;
+                newPlatform.GetComponent<Platformer>().levelIndex = currentFloorIndex;
                 _platformsQueue.Enqueue(newPlatform);
                 _lastPlatform = newPlatform.transform;
             }
@@ -122,7 +122,7 @@ namespace Core
             for (int i = 0; i < count; i++)
             {
                 GameObject platform = _platformsQueue.Dequeue();
-                PlatformLevelMarker marker = platform.GetComponent<PlatformLevelMarker>();
+                Platformer marker = platform.GetComponent<Platformer>();
                 if (marker is not null && marker.levelIndex == passedLevel)
                 {
                     Destroy(platform);
