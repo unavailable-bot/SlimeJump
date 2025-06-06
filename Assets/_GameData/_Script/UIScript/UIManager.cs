@@ -9,6 +9,8 @@ namespace UIScript
     public sealed class UIManager : MonoBehaviour
     {
         private TMP_Text _scoreText;
+        private TMP_Text _fpsCounter;
+        private float deltaTime;
         private Transform _player;
         
         private float score;
@@ -19,12 +21,17 @@ namespace UIScript
         private void Start()
         {
             _scoreText = GameObject.Find("ScoreText").GetComponent<TMP_Text>();
+            _fpsCounter = GameObject.Find("FPSCounter").GetComponent<TMP_Text>();
             _player = GameObject.Find("Player").transform;
             InitUI();
         }
         
         private void Update()
         {
+            deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+            float fps = 1.0f / deltaTime;
+            _fpsCounter.text = $"FPS: {Mathf.Ceil(fps)}";
+            
             UpdateUI();
         }
         

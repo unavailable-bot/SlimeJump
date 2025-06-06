@@ -5,9 +5,8 @@ namespace Platform
 {
     internal sealed class RunPlatform : Platformer
     {
-        private const float halfWidthPlatform = 1.2f;
         private float runSpeed;
-        private const float speedMultiplier = 0.5f;
+        private const float speedMultiplier = 0.05f;
         private float endPoint;
         
         private Vector3 _leftDir;
@@ -19,13 +18,18 @@ namespace Platform
         {
             runSpeed = Random.Range(2f, 4f);
             
-            endPoint =  Camera.main!.transform.position.x + halfWidthPlatform - (Camera.main!.orthographicSize * Camera.main.aspect);
+            endPoint =  Camera.main!.transform.position.x - (Camera.main!.orthographicSize * Camera.main.aspect);
             
             _leftDir = new Vector3(endPoint, transform.position.y, transform.position.z);
             _rightDir = new Vector3(-endPoint, transform.position.y, transform.position.z);
             
             endPoint = RandomizeDir();
             _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
+            
+            GameObject halfPlatformSprite = transform.GetChild(0).gameObject;
+            SpriteRenderer sprite = halfPlatformSprite.GetComponent<SpriteRenderer>();
+            float spriteWidth_world  = sprite.sprite.bounds.size.x;
+            Debug.Log("Sprite Width: " + spriteWidth_world);
         }
 
         private void Update()

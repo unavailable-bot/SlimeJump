@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7908020366404458705}
   - component: {fileID: 1834241293021151428}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: l_boost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7545685296325458786}
   - component: {fileID: 813637152096780214}
   - component: {fileID: 5090330491370624945}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BoostPlatform
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -116,8 +116,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7908020366404458705}
   - {fileID: 3864183138738603847}
@@ -185,7 +185,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 170
+  m_SurfaceArc: 180
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -211,7 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3342236422457661939}
   - component: {fileID: 5667567801748706961}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: magnet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3864183138738603847}
   - component: {fileID: 3014678277490227241}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: r_boost
   m_TagString: Untagged
   m_Icon: {fileID: 0}

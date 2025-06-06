@@ -23,11 +23,11 @@ namespace Core
 
         internal void IncreaseMultiplier(float delta)
         {
-            if(RunPlatformSpeedMultiplier > 50f) return;
+            if(RunPlatformSpeedMultiplier > 20f) return;
             
-            if (delta is > 0.5f or < 0.5f)
+            if (delta is > 0.05f or < 0.05f)
             {
-                delta = 0.5f;
+                delta = 0.05f;
             }
             RunPlatformSpeedMultiplier += delta;
             

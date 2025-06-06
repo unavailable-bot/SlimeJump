@@ -1,0 +1,1 @@
+C:\Users\Kirill\Desktop\UnityCourse\Lessons\Unity\UnityLesson2D\Library\PramData\AndroidApplicationController\Cache\com.DefaultCompany.UnityLesson2D\gradle-project\unityLibrary\build\intermediates\cxx\Debug\z352g373\obj\arm64-v8a

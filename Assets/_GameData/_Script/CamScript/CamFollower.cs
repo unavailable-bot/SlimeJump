@@ -4,26 +4,33 @@ namespace CamScript
 {
     internal sealed class CamFollower : MonoBehaviour
     {
-        private const float followSpeedMultiplier = 2f;
-        private Rigidbody2D _playerRb;
+        private const float smoothTime = 0.25f; // Чем больше — тем плавнее (0.15–0.3 норм)
+        private Transform _playerTransform;
+        private Vector3 _velocity = Vector3.zero;
 
         private void Start()
         {
-            _playerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+            _playerTransform = GameObject.Find("Player").transform;
         }
 
         private void LateUpdate()
         {
-            float distanceDiff = _playerRb.transform.position.y - this.transform.position.y;
-            float maxDistanceDiff = 1f;
-            
-            if (!(distanceDiff > maxDistanceDiff)) return;
-            
-            float targetPositionY = Mathf.Max(_playerRb.transform.position.y, 0f);
-            Vector3 targetPosition = new Vector3(this.transform.position.x, targetPositionY, this.transform.position.z);
-            
-            float followSpeed = followSpeedMultiplier * Mathf.Abs(_playerRb.linearVelocityY) * Time.deltaTime;
-            this.transform.position = Vector3.MoveTowards(this.transform.position, targetPosition, followSpeed);
+            // Двигаемся только вверх — камера не опускается
+            if (_playerTransform.position.y > transform.position.y)
+            {
+                Vector3 targetPos = new Vector3(
+                    transform.position.x,
+                    _playerTransform.position.y,
+                    transform.position.z
+                );
+
+                transform.position = Vector3.SmoothDamp(
+                    transform.position,
+                    targetPos,
+                    ref _velocity,
+                    smoothTime
+                );
+            }
         }
     }
 }

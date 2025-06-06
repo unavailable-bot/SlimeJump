@@ -7,11 +7,11 @@ namespace Core
     public sealed class PlatformBuilder : MonoBehaviour
     {
         private const int startFloorsCount = 3;
-        private const float halfWidthPlatform = 1.2f;
-        private const float leftBorderX = -10f + halfWidthPlatform;
-        private const float rightBorderX = 10f - halfWidthPlatform;
-        private const float minDistanceBetweenPlatform = 1f;
-        private const float maxDistanceBetweenPlatform = 6f;
+        private const float halfWidthPlatform = 0.35f;
+        private float leftBorderX;
+        private float rightBorderX;
+        private const float minDistanceBetweenPlatform = 0.25f;
+        private const float maxDistanceBetweenPlatform = 1.5f;
         private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
         private int currentFloorIndex = 1;
         [SerializeField] private float weightBoostPf = 10f;
@@ -29,6 +29,12 @@ namespace Core
 
         private void Start()
         {
+            float worldScreenHeight = _camera.orthographicSize * 2f;
+            float worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
+            leftBorderX = worldScreenWidth / 2 - halfWidthPlatform;
+            rightBorderX = -worldScreenWidth / 2 + halfWidthPlatform;
+            Debug.Log(leftBorderX);
+            Debug.Log(rightBorderX);
             this.gameObject.SetActive(false);
         }
 
@@ -138,7 +144,7 @@ namespace Core
         {
             if (currentFloorIndex % 10 != 0) return;
             
-            currentMaxDistanceBetweenPlatforms++;
+            currentMaxDistanceBetweenPlatforms += minDistanceBetweenPlatform/2;
             
             if (currentMaxDistanceBetweenPlatforms >= maxDistanceBetweenPlatform)
             {
