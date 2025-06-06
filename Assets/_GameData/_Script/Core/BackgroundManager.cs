@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +10,7 @@ namespace Core
         private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;
         private int floorsCompleted;
         private float halfHeightCam = 0.15f;
-        private bool _scaled = false;
+        private bool _scaled;
         
         public bool IsBuildRequest { get; set; }
 
