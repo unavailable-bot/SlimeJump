@@ -6,8 +6,8 @@ namespace Core
     {
         internal static PlatformManager Instance { get; private set; }
         internal float RunPlatformSpeedMultiplier { get; private set; }
-        
-        private void Awake()
+
+        internal void Initialize()
         {
             if (Instance == null)
             {
@@ -52,11 +52,6 @@ namespace Core
             RunPlatformSpeedMultiplier = 0f;
             
             //DebugGetCurrentMultiplier("Reset to: ");
-        }
-        
-        private void DebugGetCurrentMultiplier(string source)
-        {
-            Debug.Log(source+RunPlatformSpeedMultiplier);
         }
     }
 }

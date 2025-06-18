@@ -5,47 +5,64 @@ namespace Platform
 {
     internal sealed class RunPlatform : Platformer
     {
+        [SerializeField] private SpriteRenderer currentSprite;
+        
+        private const float MIN_SPEED = 2f;
+        private const float MAX_SPEED = 4f;
+        private const float SPEED_MULTIPLIER = 0.05f;
+        
         private float runSpeed;
-        private const float speedMultiplier = 0.05f;
         private float endPoint;
         
         private Vector3 _leftDir;
         private Vector3 _rightDir;
         private Vector3 _moveDir;
         
+        private Camera _camera;
+        
+        private bool movingRight;
         
         private void Start()
         {
-            runSpeed = Random.Range(2f, 4f);
+            _camera = Camera.main;
             
-            endPoint =  Camera.main!.transform.position.x - (Camera.main!.orthographicSize * Camera.main.aspect);
+            runSpeed = Random.Range(MIN_SPEED, MAX_SPEED);
             
-            _leftDir = new Vector3(endPoint, transform.position.y, transform.position.z);
-            _rightDir = new Vector3(-endPoint, transform.position.y, transform.position.z);
+            endPoint = _camera!.transform.position.x - (_camera!.orthographicSize * _camera.aspect);
+            
+            float spriteWidth_world  = (currentSprite.sprite.bounds.size.x) / 2;
+            
+            _leftDir = new Vector3(endPoint + spriteWidth_world, transform.position.y, transform.position.z);
+            _rightDir = new Vector3(-endPoint - spriteWidth_world, transform.position.y, transform.position.z);
             
             endPoint = RandomizeDir();
             _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
             
-            GameObject halfPlatformSprite = transform.GetChild(0).gameObject;
-            SpriteRenderer sprite = halfPlatformSprite.GetComponent<SpriteRenderer>();
-            float spriteWidth_world  = sprite.sprite.bounds.size.x;
-            Debug.Log("Sprite Width: " + spriteWidth_world);
+            movingRight = Random.value > 0.5f;
+            UpdateMoveDirection();
+        }
+        
+        private void UpdateMoveDirection()
+        {
+            endPoint = movingRight ? _rightDir.x : _leftDir.x;
+            _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
         }
 
         private void Update()
         {
-            if (this.transform.position.x <= _leftDir.x || this.transform.position.x >= _rightDir.x)
+            float speed = (runSpeed + PlatformManager.Instance.RunPlatformSpeedMultiplier) * Time.deltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, speed);
+
+            if (Vector3.Distance(this.transform.position, _moveDir) < 0.01f)
             {
-                endPoint = -endPoint;
-                _moveDir = new Vector3(endPoint, transform.position.y, transform.position.z);
+                movingRight = !movingRight;
+                UpdateMoveDirection();
             }
-            
-            this.transform.position = Vector3.MoveTowards(this.transform.position, _moveDir, (runSpeed + PlatformManager.Instance.RunPlatformSpeedMultiplier) * Time.deltaTime);
         }
 
         internal override void PlayerOn()
         {
-            PlatformManager.Instance.IncreaseMultiplier(speedMultiplier);
+            PlatformManager.Instance.IncreaseMultiplier(SPEED_MULTIPLIER);
         }
 
         private void OnCollisionEnter2D(Collision2D other)

@@ -6,19 +6,19 @@ namespace UIScript
 {
     public class SplashScreen : MonoBehaviour
     {
-        private GameObject _platformBuilder;
-        private Image _splashImage;              // Image для показа спрайтов
         [FormerlySerializedAs("animationFrames")] [SerializeField] private Sprite[] _animationFrames;       // Кадры-анимации
+        
+        [SerializeField] private GameObject _platformBuilder;
+        [SerializeField] private Image _splashImage;              // Image для показа спрайтов
         private const float frameRate = 0.03f;        // Скорость проигрывания (в секундах на кадр)
-
         private int currentFrame;
         private float timer;
         private bool canHide;
         private int direction; // 1 — вперёд, -1 — назад
 
-        private void Start()
+        internal void Initialize()
         {
-            _platformBuilder = GameObject.Find("PlatformManager");
+            //_platformBuilder = GameObject.Find("PlatformManager");
             _splashImage = GetComponent<Image>();
             
             if (_animationFrames.Length > 0)

@@ -14,17 +14,12 @@ namespace Core
         
         public bool IsBuildRequest { get; set; }
 
-        internal readonly List<GameObject> _backgrounds = new();
-        private Transform _player;
-        private Camera _camera;
-        
-        private void Start()
+        [SerializeField] internal List<GameObject> _backgrounds = new();
+        [SerializeField] private Transform _player;
+        [SerializeField] private Camera _camera;
+
+        internal void Initialize()
         {
-            foreach (Transform child in this.transform)
-            {
-                _backgrounds.Add(child.gameObject);
-            }
-            
             _camera = Camera.main;
             if (_camera != null) halfHeightCam += _camera.orthographicSize;
             

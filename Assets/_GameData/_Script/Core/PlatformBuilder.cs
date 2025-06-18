@@ -10,8 +10,8 @@ namespace Core
         private const float halfWidthPlatform = 0.35f;
         private float leftBorderX;
         private float rightBorderX;
-        private const float minDistanceBetweenPlatform = 0.25f;
-        private const float maxDistanceBetweenPlatform = 1.5f;
+        private const float minDistanceBetweenPlatform = 0.5f;
+        private const float maxDistanceBetweenPlatform = 2.5f;
         private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
         private int currentFloorIndex = 1;
         [SerializeField] private float weightBoostPf = 10f;
@@ -27,17 +27,15 @@ namespace Core
         
         private BackgroundManager _backgroundManager;
 
-        private void Start()
+        internal void Initialize(Camera mainCam)
         {
-            float worldScreenHeight = _camera.orthographicSize * 2f;
+            float worldScreenHeight = mainCam.orthographicSize * 2f;
             float worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
             leftBorderX = worldScreenWidth / 2 - halfWidthPlatform;
             rightBorderX = -worldScreenWidth / 2 + halfWidthPlatform;
-            Debug.Log(leftBorderX);
-            Debug.Log(rightBorderX);
             this.gameObject.SetActive(false);
         }
-
+        
         private void OnEnable()
         {
             _backgroundManager = GameObject.Find("BackgroundManager").GetComponent<BackgroundManager>();

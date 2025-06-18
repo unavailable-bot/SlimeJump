@@ -4,14 +4,16 @@ namespace Player
 {
     internal sealed class Movement : MonoBehaviour
     {
-        private const float moveSpeed = 8f;
-        private const float jumpForce = 16f;
+        private const float moveSpeed = 5f;
+        private const float jumpForce = 15f;
         private float borderX;
         private const float fixedValue = 0.5f;
         private const float maxJumpForce = 1.5f;
         
         private static float jumpForceMultiplier = 1f;
         private bool isJumping = true;
+        private const float jumpCooldown = 0.1f;
+        private float jumpCooldownTimer;
 
         public static float JumpForceMultiplier
         {
@@ -38,12 +40,13 @@ namespace Player
         private Vector2 _moveDir;
 
         public LayerMask groundLayer; // 🎯 Укажи в инспекторе слой с платформами
-        private const float rayLength = 0.2f; // 🎯 Длина луча вниз
+        [SerializeField] private float rayLength = 0.2f; // 🎯 Длина луча вниз
         
         private void Start()
         {
             _camera = Camera.main;
-            borderX = (_camera!.orthographicSize * 2f) * Screen.width / Screen.height;
+            borderX = _camera!.orthographicSize * Screen.width / Screen.height;
+            Debug.Log($"Border {borderX}");
             _rb = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collider2D>();
         }
@@ -80,10 +83,26 @@ namespace Player
                 transform.position = new Vector2(-borderX, transform.position.y);
             if(transform.position.x < -borderX)
                 transform.position = new Vector2(borderX, transform.position.y);
+            
+            float playerHalfWidth = _coll.bounds.extents.x;
+            
+            Vector2 originCenter = transform.position;
+            Vector2 originLeft   = originCenter + Vector2.left * playerHalfWidth;
+            Vector2 originRight  = originCenter + Vector2.right * playerHalfWidth;
+            
+            // 🎯 Визуализация
+            Debug.DrawRay(originCenter, Vector2.down * rayLength, Color.red);
+            Debug.DrawRay(originLeft,   Vector2.down * rayLength, Color.red);
+            Debug.DrawRay(originRight,  Vector2.down * rayLength, Color.red);
+            
+            Debug.Log(jumpCooldownTimer);
         }
         
         private void FixedUpdate()
         {
+            if (jumpCooldownTimer > 0f)
+                jumpCooldownTimer -= Time.fixedDeltaTime;
+            
             _rb.linearVelocity = _moveDir;
             
             if (isJumping || _rb.linearVelocity.y > 0f) return;
@@ -115,11 +134,12 @@ namespace Player
             _rb.AddForce(Vector2.up * (jumpForce * jumpForceMultiplier), ForceMode2D.Impulse);
             jumpForceMultiplier = 1f;
             isJumping = true;
+            jumpCooldownTimer = jumpCooldown;
         }
         
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag("Platform") || _rb.linearVelocity.y > 0f || !isJumping) return;
+            if (!other.gameObject.CompareTag("Platform") || _rb.linearVelocity.y > 0f || !isJumping || jumpCooldownTimer > 0f) return;
             isJumping = false;
         }
     }

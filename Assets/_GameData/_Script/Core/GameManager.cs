@@ -7,8 +7,9 @@ namespace Core
         private void Start()
         {
             QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 90;
-            Time.fixedDeltaTime = 1f / Application.targetFrameRate;
+            Application.targetFrameRate = 144;
+            Time.fixedDeltaTime = 1f / 90;
+            Debug.Log(Time.fixedDeltaTime);
             Screen.orientation = ScreenOrientation.Portrait;
         }
     }
