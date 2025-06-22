@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Kirill/Desktop/UnityCourse/Lessons/Unity/UnityLesson2D/Library/PramData/AndroidApplicationController/Cache/com.DefaultCompany.UnityLesson2D/gradle-project/unityLibrary/src/main/cpp/GameActivity
+# Install script for directory: C:/Users/Kirill/Desktop/UnityCourse/Lessons/Unity/UnityLesson2D/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
