@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4232603376767148350}
   - component: {fileID: 60483951194623160}
   - component: {fileID: 8022589001602169862}
+  - component: {fileID: -9108584495724301927}
+  - component: {fileID: -5155821069012401171}
   m_Layer: 13
   m_Name: RunPlatform
   m_TagString: Platform
@@ -152,7 +154,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
+  m_SurfaceArc: 170
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -169,6 +171,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSprite: {fileID: 4139877191869695937}
+--- !u!114 &-9108584495724301927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399417467211142002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d02f6a37e72bad40b87ebd455a0235f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionEntries:
+  - action: {fileID: -5155821069012401171}
+    runOnce: 1
+    runOnAwake: 1
+    hasRun: 0
+--- !u!114 &-5155821069012401171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399417467211142002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc27123da13b05f4888c474f75dc9a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 8391813176495074721, guid: 2fd9c28700eff444db0581f901a16608, type: 3}
+  _position: {x: 0, y: 0, z: 0}
 --- !u!1 &4521985766471541598
 GameObject:
   m_ObjectHideFlags: 0

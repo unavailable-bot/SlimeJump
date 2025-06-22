@@ -22,12 +22,12 @@ namespace UIScript
 
         private void Update()
         {
-            if (_uiManager.IsIceForm && _animator.runtimeAnimatorController.name != _iceFire.name)
+            if (_uiManager.IsIceForm && _animator.runtimeAnimatorController != _iceFire)
             {
                 SetIceFire();
             }
             
-            if (!_uiManager.IsIceForm && _animator.runtimeAnimatorController.name != _magmaFire.name)
+            if (!_uiManager.IsIceForm && _animator.runtimeAnimatorController != _magmaFire)
             {
                 SetMagmaFire();
             }

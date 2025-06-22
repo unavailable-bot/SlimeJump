@@ -8,68 +8,54 @@ namespace UIScript
 {
     public sealed class UIManager : MonoBehaviour
     {
-        private TMP_Text _scoreText;
-        private TMP_Text _fpsCounter;
         private float deltaTime;
-        private Transform _player;
-        
         private float score;
         private float higherPlayerPosition;
+        
+        [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _fpsCounter;
+        [SerializeField] private Transform _player;
 
         internal bool IsIceForm { get; set; } = true;
         
-        private void Start()
+        internal void Initialize()
         {
-            _scoreText = GameObject.Find("ScoreText").GetComponent<TMP_Text>();
-            _fpsCounter = GameObject.Find("FPSCounter").GetComponent<TMP_Text>();
-            _player = GameObject.Find("Player").transform;
-            InitUI();
-        }
-        
-        private void Update()
-        {
-            deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-            float fps = 1.0f / deltaTime;
-            _fpsCounter.text = $"FPS: {Mathf.Ceil(fps)}";
-            
-            UpdateUI();
-        }
-        
-        private void InitUI()
-        {
-            // Размер текста
             _scoreText.fontSize = 48;
 
-            // Цвет текста
             _scoreText.color = new Color32(250, 250, 150, 255);
 
-            // Жирность
             _scoreText.fontStyle = FontStyles.Bold;
 
-            // Выравнивание по левому верхнему углу
             _scoreText.alignment = TextAlignmentOptions.TopLeft;
 
-            // Обводка (outline)
             _scoreText.outlineWidth = 1f;
             _scoreText.outlineColor = Color.black;
 
-            // Тень (Shadow)
             var shadow = _scoreText.GetComponent<Shadow>();
             if (shadow == null)
                 shadow = _scoreText.gameObject.AddComponent<Shadow>();
             shadow.effectColor = new Color32(0, 0, 0, 150);
             shadow.effectDistance = new Vector2(2f, -2f);
 
-            // Градиент (пример — отключи если не надо)
             _scoreText.enableVertexGradient = true;
             _scoreText.colorGradient = new VertexGradient(
-                new Color32(10, 50, 0, 150), // верхний левый
-                new Color32(150, 0, 0, 255), // верхний правый
-                new Color32(10, 50, 0, 150), // нижний левый
-                new Color32(150, 0, 0, 255)  // нижний правый
+                new Color32(10, 50, 0, 150),
+                new Color32(150, 0, 0, 255),
+                new Color32(10, 50, 0, 150),
+                new Color32(150, 0, 0, 255)
             );
 
             _scoreText.text = $"Y | {(int)score} x {SwitchElement.Instance.ScoreMultiplier}";
+        }
+        
+        private void Update()
+        {
+            const float DELTA = 0.1f;
+            deltaTime += (Time.unscaledDeltaTime - deltaTime) * DELTA;
+            float fps = 1f / deltaTime;
+            _fpsCounter.text = $"FPS: {Mathf.Ceil(fps)}";
+            
+            UpdateUI();
         }
         
         private void UpdateUI()
@@ -81,10 +67,9 @@ namespace UIScript
             _scoreText.text = $"Y | {(int)score} x {SwitchElement.Instance.ScoreMultiplier}";
         }
         
-        // Запуск: StartCoroutine(ScaleTo(targetScale, duration));
         public IEnumerator ScaleTo(Transform scaleObj, Vector3 targetScale, float duration)
         {
-            Vector3 startScale = scaleObj.localScale;
+            var startScale = scaleObj.localScale;
             float elapsed = 0f;
 
             while (elapsed < duration)
@@ -96,7 +81,6 @@ namespace UIScript
             scaleObj.localScale = targetScale;
         }
         
-        // Твоя корутина плавного уменьшения размера
         internal IEnumerator SmoothScoreFontSize(float targetSize, float duration)
         {
             float startSize = _scoreText.fontSize;

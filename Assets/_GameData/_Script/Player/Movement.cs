@@ -33,7 +33,7 @@ namespace Player
                 jumpForceMultiplier += value;
             }
         }
-
+        
         private Camera _camera;
         private Rigidbody2D _rb;
         private Collider2D _coll;
@@ -59,10 +59,10 @@ namespace Player
             
                 if (Input.touchCount > 0)
                 {
-                    Touch touch = Input.GetTouch(0);
+                    var touch = Input.GetTouch(0);
                     float halfWidth = Screen.width / 2f;
 
-                    if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+                    if (touch.phase is TouchPhase.Began or TouchPhase.Stationary or TouchPhase.Moved)
                     {
                         if (touch.position.x < halfWidth)
                             moveHorizontal = -1f;
@@ -87,8 +87,8 @@ namespace Player
             float playerHalfWidth = _coll.bounds.extents.x;
             
             Vector2 originCenter = transform.position;
-            Vector2 originLeft   = originCenter + Vector2.left * playerHalfWidth;
-            Vector2 originRight  = originCenter + Vector2.right * playerHalfWidth;
+            var originLeft   = originCenter + Vector2.left * playerHalfWidth;
+            var originRight  = originCenter + Vector2.right * playerHalfWidth;
             
             // 🎯 Визуализация
             Debug.DrawRay(originCenter, Vector2.down * rayLength, Color.red);
@@ -115,13 +115,12 @@ namespace Player
         {
             float halfWidth = _coll.bounds.extents.x;
             Vector2 originCenter = transform.position;
-            Vector2 originLeft   = originCenter + Vector2.left * halfWidth;
-            Vector2 originRight  = originCenter + Vector2.right * halfWidth;
+            var originLeft   = originCenter + Vector2.left * halfWidth;
+            var originRight  = originCenter + Vector2.right * halfWidth;
 
             bool hitCenter = Physics2D.Raycast(originCenter, Vector2.down, rayLength, groundLayer);
             bool hitLeft   = Physics2D.Raycast(originLeft,   Vector2.down, rayLength, groundLayer);
             bool hitRight  = Physics2D.Raycast(originRight,  Vector2.down, rayLength, groundLayer);
-
 
             return hitCenter || hitLeft || hitRight;
         }

@@ -48,13 +48,13 @@ namespace Player
         {
             if (!other.gameObject.transform.parent.TryGetComponent(out IcePlatform platform)) return;
             
-            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.MagmaSlime.name)
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.MagmaSlime)
             {
                 platform.PlayerOn();
                 return;
             }
             
-            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.IceSlime.name)
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.IceSlime)
             {
                 SwitchElement.Instance.BoostScoreMultiplier();
             }
@@ -64,13 +64,13 @@ namespace Player
         {
             if (!other.gameObject.transform.parent.TryGetComponent(out MagmaPlatform platform)) return;
             
-            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.IceSlime.name)
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.IceSlime)
             {
                 platform.PlayerOn();
                 return;
             }
             
-            if (gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.MagmaSlime.name)
+            if (gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.MagmaSlime)
             {
                 SwitchElement.Instance.BoostScoreMultiplier();
             }

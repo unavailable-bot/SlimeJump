@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 867459363423593148}
@@ -141,9 +141,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &4354468702141570790
 BoxCollider2D:
@@ -179,17 +179,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.3}
+  m_Offset: {x: 0, y: -0.08}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 1}
+    oldSize: {x: 0.97523814, y: 0.32}
     newSize: {x: 3, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.3}
+  m_Size: {x: 0.3, y: 0.15}
   m_EdgeRadius: 0
 --- !u!114 &4002544442564102338
 MonoBehaviour:
@@ -203,6 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36265014f06ac3f4a9b1ae49b9bc699a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  rayLength: 0.18
 --- !u!114 &1142864113617075226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.75
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -353,11 +357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: -0.175
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -453,11 +457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0.175
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4034141621855591726, guid: 8e1b602e9ea62fd42a2f61dd439f27ca, type: 3}
       propertyPath: m_LocalPosition.z

@@ -6,11 +6,11 @@ namespace Core
 {
     internal sealed class BackgroundManager : MonoBehaviour
     {
-        private const float distanceBetweenBackgrounds = 10.8f;
-        private const float distanceBetweenLastBackground = distanceBetweenBackgrounds * 3;
+        private const float DISTANCE_BETWEEN_BACKGROUNDS = 10.8f;
+        private const float DISTANCE_BETWEEN_LAST_BACKGROUND = DISTANCE_BETWEEN_BACKGROUNDS * 3;
         private int floorsCompleted;
         private float halfHeightCam = 0.15f;
-        private bool _scaled;
+        private bool scaled;
         
         public bool IsBuildRequest { get; set; }
 
@@ -21,14 +21,13 @@ namespace Core
         internal void Initialize()
         {
             _camera = Camera.main;
-            if (_camera != null) halfHeightCam += _camera.orthographicSize;
-            
+            if (_camera is not null) halfHeightCam += _camera.orthographicSize;
             _player = GameObject.Find("Player").transform;
         }
 
         private void Update()
         {
-            int currentFloor = Mathf.FloorToInt(_camera.transform.position.y / distanceBetweenBackgrounds);
+            var currentFloor = Mathf.FloorToInt(_camera.transform.position.y / DISTANCE_BETWEEN_BACKGROUNDS);
             
             if (currentFloor > floorsCompleted)
             {
@@ -44,18 +43,19 @@ namespace Core
 
         private void LateUpdate()
         {
-            if (_scaled) return;
+            if (scaled) return;
             
             foreach (Transform child in this.transform)
             {
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 SetBackgroundSize(child);
             }
-            _scaled = true;
+            scaled = true;
         }
 
         private void TransitionToNextFloor()
         {
-            _backgrounds[0].transform.position += new Vector3(0f, distanceBetweenLastBackground, 0f);
+            _backgrounds[0].transform.position += new Vector3(0f , DISTANCE_BETWEEN_LAST_BACKGROUND, 0f);
             _backgrounds.Add(_backgrounds[0]);
             _backgrounds.RemoveAt(0);
                 
@@ -64,28 +64,24 @@ namespace Core
 
         private void SetBackgroundSize(Transform background)
         {
-            SpriteRenderer sr = background.GetComponent<SpriteRenderer>();
-            if (sr == null || sr.sprite == null)
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+            var sr = background.GetComponent<SpriteRenderer>();
+            if (sr?.sprite is null)
             {
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 Debug.LogWarning("BackgroundScaler: Нет спрайта для масштабирования!");
                 return;
             }
             
-            // Размеры спрайта в мировых единицах
             float spriteWidth_world  = sr.sprite.bounds.size.x;
             float spriteHeight_world = sr.sprite.bounds.size.y;
 
-            // Высота экрана (мировых единиц): orthoSize * 2 + Ширина экрана (мировых единиц) пропорциональна Aspect
             float worldScreenHeight = _camera.orthographicSize * 2f;
             float worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
-            
-            Debug.Log($"Border {worldScreenWidth}");
 
-            // Коэффициенты масштабирования по осям
             float scaleX = worldScreenWidth  / spriteWidth_world;
             float scaleY = worldScreenHeight / spriteHeight_world;
 
-            // Применяем масштаб к объекту
             background.localScale = new Vector3(background.localScale.x * scaleX, background.localScale.y * scaleY, 1f);
         }
     }

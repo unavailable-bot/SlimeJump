@@ -6,14 +6,15 @@ namespace Core
 {
     public sealed class PlatformBuilder : MonoBehaviour
     {
-        private const int startFloorsCount = 3;
-        private const float halfWidthPlatform = 0.35f;
+        private const int START_FLOORS_COUNT = 3;
+        private const float HALF_WIDTH_PLATFORM = 0.35f;
+        private const float MIN_DISTANCE_BETWEEN_PLATFORM = 0.5f;
+        private const float MAX_DISTANCE_BETWEEN_PLATFORM = 2.5f;
         private float leftBorderX;
         private float rightBorderX;
-        private const float minDistanceBetweenPlatform = 0.5f;
-        private const float maxDistanceBetweenPlatform = 2.5f;
-        private float currentMaxDistanceBetweenPlatforms = minDistanceBetweenPlatform;
+        private float currentMaxDistanceBetweenPlatforms = MIN_DISTANCE_BETWEEN_PLATFORM;
         private int currentFloorIndex = 1;
+        
         [SerializeField] private float weightBoostPf = 10f;
         [SerializeField] private float weightRunPf = 20f;
         [SerializeField] private float weightMagmaPf = 50f;
@@ -31,8 +32,8 @@ namespace Core
         {
             float worldScreenHeight = mainCam.orthographicSize * 2f;
             float worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
-            leftBorderX = worldScreenWidth / 2 - halfWidthPlatform;
-            rightBorderX = -worldScreenWidth / 2 + halfWidthPlatform;
+            leftBorderX = worldScreenWidth / 2 - HALF_WIDTH_PLATFORM;
+            rightBorderX = -worldScreenWidth / 2 + HALF_WIDTH_PLATFORM;
             this.gameObject.SetActive(false);
         }
         
@@ -52,10 +53,11 @@ namespace Core
             if (!_backgroundManager.IsBuildRequest) return;
             
             UpdateCurrentMaxDistance();
-                
-            RemoveCompletedFloor(currentFloorIndex - startFloorsCount);
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+            RemoveCompletedFloor(currentFloorIndex - START_FLOORS_COUNT);
                 
             float topY = _backgroundManager._backgrounds[^1].transform.position.y + _camera.orthographicSize;
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             BuildFloor(topY, currentMaxDistanceBetweenPlatforms);
         }
 
@@ -70,7 +72,7 @@ namespace Core
                 total += weight;
             }
             
-            float random = Random.Range(0f, total);
+            var random = Random.Range(0f, total);
             float cumulative = 0f;
             for (int i = 0; i < weights.Length; i++)
             {
@@ -99,8 +101,8 @@ namespace Core
             
             while (true)
             {
-                float newPointX = Random.Range(leftBorderX, rightBorderX);
-                float newPointY = Random.Range(_lastPosition.y + minDistanceBetweenPlatform, _lastPosition.y + currentMaxDistance);
+                var newPointX = Random.Range(leftBorderX, rightBorderX);
+                var newPointY = Random.Range(_lastPosition.y + MIN_DISTANCE_BETWEEN_PLATFORM, _lastPosition.y + currentMaxDistance);
                 
                 if(newPointY > topY) break;
                 
@@ -110,7 +112,8 @@ namespace Core
             
             foreach (var position in newPositions)
             {
-                GameObject newPlatform = Instantiate(_platforms[GetRandomNumber()], position, Quaternion.identity);
+                var newPlatform = Instantiate(_platforms[GetRandomNumber()], position, Quaternion.identity);
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 newPlatform.GetComponent<Platformer>().levelIndex = currentFloorIndex;
                 _platformsQueue.Enqueue(newPlatform);
                 _lastPlatform = newPlatform.transform;
@@ -125,8 +128,9 @@ namespace Core
             int count = _platformsQueue.Count;
             for (int i = 0; i < count; i++)
             {
-                GameObject platform = _platformsQueue.Dequeue();
-                Platformer marker = platform.GetComponent<Platformer>();
+                var platform = _platformsQueue.Dequeue();
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                var marker = platform.GetComponent<Platformer>();
                 if (marker is not null && marker.levelIndex == passedLevel)
                 {
                     Destroy(platform);
@@ -142,11 +146,11 @@ namespace Core
         {
             if (currentFloorIndex % 10 != 0) return;
             
-            currentMaxDistanceBetweenPlatforms += minDistanceBetweenPlatform/2;
+            currentMaxDistanceBetweenPlatforms += MIN_DISTANCE_BETWEEN_PLATFORM/2;
             
-            if (currentMaxDistanceBetweenPlatforms >= maxDistanceBetweenPlatform)
+            if (currentMaxDistanceBetweenPlatforms >= MAX_DISTANCE_BETWEEN_PLATFORM)
             {
-                currentMaxDistanceBetweenPlatforms = maxDistanceBetweenPlatform;
+                currentMaxDistanceBetweenPlatforms = MAX_DISTANCE_BETWEEN_PLATFORM;
             }
         }
     }

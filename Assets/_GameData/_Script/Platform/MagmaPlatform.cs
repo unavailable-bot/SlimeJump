@@ -23,13 +23,13 @@ namespace Platform
         {
             if (other.gameObject.name != "Player" || !(other.gameObject.GetComponent<Rigidbody2D>().linearVelocityY <= 0f)) return;
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.IceSlime.name)
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.IceSlime)
             {
                 PlayerOn();
                 return;
             }
             
-            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController.name == SwitchElement.Instance.MagmaSlime.name)
+            if (other.gameObject.GetComponent<Animator>().runtimeAnimatorController == SwitchElement.Instance.MagmaSlime)
             {
                 SwitchElement.Instance.BoostScoreMultiplier();
             }
