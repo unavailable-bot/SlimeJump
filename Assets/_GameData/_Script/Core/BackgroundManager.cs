@@ -44,7 +44,6 @@ namespace Core
                 GameEventBas.SetBestScore();
                 GameEventBas.GameOver();
                 _player.gameObject.SetActive(false);
-                Debug.Log("HUIIIIIIIIIIIIIIIIIIII");
             }
         }
 
