@@ -1,22 +1,23 @@
 using Player;
 using UIScript;
+using UIScript.AllGUI;
 using UnityEngine;
 
 namespace Platform
 {
     internal sealed class IcePlatform : Platformer
     {
-        private UIManager _uiManager;
+        private UIHudCanvas _uiHudCanvas;
         
         private void Start()
         {
-            _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _uiHudCanvas = GameObject.Find("Game{Canvas}").GetComponent<UIHudCanvas>();
         }
         
         internal override void PlayerOn()
         {
             SwitchElement.Instance.SetIceForm();
-            StartCoroutine(_uiManager.SmoothScoreFontSize(48f, 0.5f));
+            StartCoroutine(_uiHudCanvas.SmoothScoreFontSize(48f, 0.5f));
         }
 
         private void OnCollisionEnter2D(Collision2D other)

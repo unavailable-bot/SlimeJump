@@ -1,5 +1,6 @@
 using UnityEngine;
 using UIScript;
+using UIScript.AllGUI;
 
 namespace Player
 {
@@ -9,7 +10,7 @@ namespace Player
         internal RuntimeAnimatorController MagmaSlime { get; private set; }
         internal RuntimeAnimatorController IceSlime { get; private set; }
         private Animator _animator;
-        private UIManager _uiManager;
+        private UIHudCanvas _uiHudCanvas;
 
         internal float ScoreMultiplier { get; private set; }
 
@@ -20,7 +21,7 @@ namespace Player
             MagmaSlime = Resources.Load<RuntimeAnimatorController>($"Animators/Player/magmaSlime");
             IceSlime = Resources.Load<RuntimeAnimatorController>($"Animators/Player/iceSlime");
             _animator = GetComponent<Animator>();
-            _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _uiHudCanvas = GameObject.Find("Game{Canvas}").GetComponent<UIHudCanvas>();
             _animator.runtimeAnimatorController = IceSlime;
         }
 
@@ -39,14 +40,14 @@ namespace Player
         {
             ScoreMultiplier = 1f;
             _animator.runtimeAnimatorController = MagmaSlime;
-            _uiManager.IsIceForm = false;
+            _uiHudCanvas.IsIceForm = false;
         }
         
         internal void SetIceForm()
         {
             ScoreMultiplier = 1f;
             _animator.runtimeAnimatorController = IceSlime;
-            _uiManager.IsIceForm = true;
+            _uiHudCanvas.IsIceForm = true;
         }
     }
 }

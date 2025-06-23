@@ -1,3 +1,4 @@
+using Core.EventBas;
 using UnityEngine;
 
 namespace Player
@@ -46,7 +47,6 @@ namespace Player
         {
             _camera = Camera.main;
             borderX = _camera!.orthographicSize * Screen.width / Screen.height;
-            Debug.Log($"Border {borderX}");
             _rb = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collider2D>();
         }
@@ -94,8 +94,6 @@ namespace Player
             Debug.DrawRay(originCenter, Vector2.down * rayLength, Color.red);
             Debug.DrawRay(originLeft,   Vector2.down * rayLength, Color.red);
             Debug.DrawRay(originRight,  Vector2.down * rayLength, Color.red);
-            
-            Debug.Log(jumpCooldownTimer);
         }
         
         private void FixedUpdate()
@@ -140,6 +138,14 @@ namespace Player
         {
             if (!other.gameObject.CompareTag("Platform") || _rb.linearVelocity.y > 0f || !isJumping || jumpCooldownTimer > 0f) return;
             isJumping = false;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Burger"))
+            {
+                GameEventBas.TakeBurger();
+            }
         }
     }
 }

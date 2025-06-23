@@ -1,16 +1,17 @@
 using Player;
 using UIScript;
+using UIScript.AllGUI;
 using UnityEngine;
 
 namespace Platform
 {
     internal sealed class MagmaPlatform : Platformer
     {
-        private UIManager _uiManager;
+        private UIHudCanvas _uiManager;
         
         private void Start()
         {
-            _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _uiManager = GameObject.Find("Game{Canvas}").GetComponent<UIHudCanvas>();
         }
         
         internal override void PlayerOn()

@@ -6,7 +6,6 @@ namespace ModuleSystem.Modules
     {
         public void Execute(GameObject target)
         {
-            Debug.Log("Destroying");
             GameObject.Destroy(target);
         }
     }

@@ -1,3 +1,4 @@
+using UIScript.AllGUI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace UIScript
     {
         [FormerlySerializedAs("animationFrames")] [SerializeField] private Sprite[] _animationFrames;       // Кадры-анимации
         
+        [SerializeField] private Canvas _hudCanvas;
         [SerializeField] private GameObject _platformBuilder;
         [SerializeField] private Image _splashImage;              // Image для показа спрайтов
         private const float frameRate = 0.03f;        // Скорость проигрывания (в секундах на кадр)
@@ -54,7 +56,7 @@ namespace UIScript
             }
 
             // Скрываем табличку по нажатию любой кнопки или мыши
-            if (canHide && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+            if ((canHide && (Input.anyKeyDown || Input.GetMouseButtonDown(0))) && _hudCanvas.enabled)
             {
                 HideSplash();
             }

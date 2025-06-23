@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Core.EventBas;
+using UIScript.AllGUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +16,7 @@ namespace Core
         
         public bool IsBuildRequest { get; set; }
 
+        [SerializeField] private Canvas _hudCanvas;
         [SerializeField] internal List<GameObject> _backgrounds = new();
         [SerializeField] private Transform _player;
         [SerializeField] private Camera _camera;
@@ -35,9 +38,13 @@ namespace Core
                 IsBuildRequest = true;
             }
 
-            if (_player.position.y < _camera.transform.position.y - halfHeightCam)
+            if (_player.position.y < _camera.transform.position.y - halfHeightCam && _hudCanvas.enabled)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                GameEventBas.SetTotalScore();
+                GameEventBas.SetBestScore();
+                GameEventBas.GameOver();
+                _player.gameObject.SetActive(false);
+                Debug.Log("HUIIIIIIIIIIIIIIIIIIII");
             }
         }
 

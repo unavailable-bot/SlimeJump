@@ -1,4 +1,5 @@
 using Player;
+using UIScript.AllGUI;
 using UnityEngine;
 
 namespace UIScript
@@ -7,7 +8,7 @@ namespace UIScript
     {
         private const float maxScale = 3f;
         
-        private UIManager _uiManager;
+        private UIHudCanvas _uiHudCanvas;
         
         private Animator _animator;
 
@@ -16,18 +17,18 @@ namespace UIScript
         
         private void Start()
         {
-            _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+            _uiHudCanvas = GameObject.Find("Game{Canvas}").GetComponent<UIHudCanvas>();
             _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            if (_uiManager.IsIceForm && _animator.runtimeAnimatorController != _iceFire)
+            if (_uiHudCanvas.IsIceForm && _animator.runtimeAnimatorController != _iceFire)
             {
                 SetIceFire();
             }
             
-            if (!_uiManager.IsIceForm && _animator.runtimeAnimatorController != _magmaFire)
+            if (!_uiHudCanvas.IsIceForm && _animator.runtimeAnimatorController != _magmaFire)
             {
                 SetMagmaFire();
             }
@@ -36,12 +37,12 @@ namespace UIScript
             Vector3 newScale = new(scaleMultiplier,scaleMultiplier,scaleMultiplier);
             if (SwitchElement.Instance.ScoreMultiplier > 1 && this.transform.localScale.magnitude < maxScale)
             {
-                StartCoroutine(_uiManager.ScaleTo(this.transform,this.transform.localScale + newScale, 0.5f));
+                StartCoroutine(_uiHudCanvas.ScaleTo(this.transform,this.transform.localScale + newScale, 0.5f));
             }
 
             if (this.transform.localScale != Vector3.one && Mathf.Approximately(SwitchElement.Instance.ScoreMultiplier, 1f))
             {
-                StartCoroutine(_uiManager.ScaleTo(this.transform, Vector3.one, 0.5f));
+                StartCoroutine(_uiHudCanvas.ScaleTo(this.transform, Vector3.one, 0.5f));
             }
         }
 

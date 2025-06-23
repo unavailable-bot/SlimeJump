@@ -39,7 +39,7 @@ namespace Core
         
         private void OnEnable()
         {
-            _backgroundManager = GameObject.Find("BackgroundManager").GetComponent<BackgroundManager>();
+            _backgroundManager = GameObject.Find("[BackgroundManager]").GetComponent<BackgroundManager>();
             _camera = Camera.main;
             _lastPlatform = _startPlatform.transform;
             _platformsQueue = new Queue<GameObject>();
